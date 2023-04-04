@@ -10,8 +10,10 @@
     }
  */
 
- require_once "Models/Conexion.php";
+ require_once "Connect/Conexion.php";
 
-  $respuesta = Conexion::conectar()->prepare("SELECT * FROM usuarios");
-  echo $respuesta;
+  $respuesta = Conexion::conectar()->prepare("SELECT * FROM usuarios ");
+  $respuesta->execute();
+  $users = $respuesta->fetchAll(PDO::FETCH_ASSOC);
+ var_dump($users);
 ?>

@@ -8,7 +8,6 @@
         $loginController->login();
     }
  */
-
  require_once "Connect/Conexion.php";
 
   $respuesta = Conexion::conectar()->prepare("SELECT * FROM usuarios ");

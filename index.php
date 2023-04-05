@@ -10,10 +10,17 @@
     }
  */
 
- require_once "Connect/Conexion.php";
+/*  require_once "Connect/Conexion.php";
 
   $respuesta = Conexion::conectar()->prepare("SELECT * FROM usuarios ");
   $respuesta->execute();
   $users = $respuesta->fetchAll(PDO::FETCH_ASSOC);
- var_dump($users);
-?>
+ var_dump($users); */
+
+/* Requiere Controladores */
+require_once "Controllers/plantillaController.php";
+
+
+
+$plantilla = new PlantillaController();
+$plantilla->ctrPlantilla();

@@ -22,7 +22,7 @@
             <tbody>
                 <?php
                     if(isset($lista_gastos)){ 
-                        var_dump($lista_gastos);                    
+                        var_dump($lista_gastos);                   
                 ?>
                     <tr id=''>
                     <td></td>

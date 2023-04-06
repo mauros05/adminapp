@@ -1,13 +1,13 @@
 <?php 
     class controllerFinanzas {
         public function __construct(){
-            require_once "Models/modelFinanzas.php";
+
             
         }
-        public function listado_gastos(){
-            $modeloFinanzas = new modelFinanzas;
-            $lista_gastos=$modeloFinanzas->listado_gastos();
-            require_once "views/Finanzas/viewGastos.php";
+        public static function  ctrlistado_gastos($item,$valor){
+            $tabla="gastos";
+            $respuesta=modelFinanzas::mdllistado_gastos($tabla,$item,$valor);
+            return $respuesta;
         }
     }
 ?>

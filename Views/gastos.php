@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid ">
-      <h1 class="text-center">Finanzas</h1>
+      <h1 class="text-center">Gastos</h1>
       <div class="row mt-2 col-12">
       <button type="button" class="btn btn-block btn-primary btn-flat ml-auto col-3">Agregar nuevo</button>
       </div>
@@ -21,8 +21,11 @@
             </thead>
             <tbody>
                 <?php
-                    if(isset($lista_gastos)){ 
-                        var_dump($lista_gastos);                   
+                $item='id_usuario';
+                $valor=2;
+                $respuesta = controllerFinanzas::ctrlistado_gastos($item,$valor);
+                var_dump($respuesta);
+                if($respuesta){
                 ?>
                     <tr id=''>
                     <td></td>
@@ -32,11 +35,11 @@
                     <td></td>
                     <td></td>
                     </tr>
-                <?php }else{?>
+                <?php
+                }else{?>
                   <td colspan="6"><h5 id="aviso_registros" class="text-center mt-2">No existe ningun registro</h5></td>
                 <?php
-                    }
-                ?>
+                }?>
             </tbody>
           </table>
         </div>

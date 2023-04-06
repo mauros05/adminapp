@@ -25,7 +25,8 @@ include "Views/componentes/sidebar.php";
 if(isset($_GET["ruta"])){
   if($_GET["ruta"] == "login" || 
       $_GET["ruta"] == "usuarios" ||
-      $_GET["ruta"] == "finanzas"){
+      $_GET["ruta"] == "finanzas" ||
+      $_GET["ruta"] == "gastos"){
       include "Views/".$_GET["ruta"].".php";
     }else{
       include "Views/404.php";

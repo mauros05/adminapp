@@ -16,8 +16,9 @@
 
 /* Requiere Controladores */
 require_once "Controllers/plantillaController.php";
-
-
+require_once "Controllers/controllerFinanzas.php";
+/* Requiere Modelos */
+require_once "Models/modelFinanzas.php";
 
 $plantilla = new PlantillaController();
 $plantilla->ctrPlantilla();

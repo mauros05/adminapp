@@ -15,7 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed login-page">
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed ">
 <div class="wrapper">
 
  <?php
@@ -23,18 +23,14 @@ include "Views/componentes/header.php";
 include "Views/componentes/sidebar.php";
  
 if(isset($_GET["ruta"])){
-
-        if($_GET["ruta"] == "login" || 
-            $_GET["ruta"] == "usuarios" ||
-            $_GET["ruta"] == "finanzas"){
-
-            include "Views/".$_GET["ruta"].".php";
-            
-        }else{
-                include "Views/404.php";
-            }
-
+  if($_GET["ruta"] == "login" || 
+      $_GET["ruta"] == "usuarios" ||
+      $_GET["ruta"] == "finanzas"){
+      include "Views/".$_GET["ruta"].".php";
+    }else{
+      include "Views/404.php";
     }
+}
    
 
 ?>

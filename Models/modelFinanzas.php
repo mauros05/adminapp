@@ -5,7 +5,7 @@
             
         }
 
-        public function mdllistado_gastos($tabla,$item,$valor){
+        public static function mdllistado_gastos($tabla,$item,$valor){
             
             if($item!=null){
                 $stmt=Conexion::conectar()->prepare("

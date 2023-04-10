@@ -14,6 +14,7 @@
   $users = $respuesta->fetchAll(PDO::FETCH_ASSOC);
  var_dump($users); */
 
+
 /* Requiere Controladores */
 require_once "Controllers/plantillaController.php";
 require_once "Controllers/controllerFinanzas.php";

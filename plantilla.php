@@ -39,6 +39,8 @@ if(isset($_GET["ruta"])){
   </div>
 
 <!-- REQUIRED SCRIPTS -->
+<!-- Propios -->
+<script src="js/finanzas.js"></script>
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->

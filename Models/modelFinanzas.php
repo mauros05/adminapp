@@ -9,7 +9,7 @@
             
             if($item!=null){
                 $stmt=Conexion::conectar()->prepare("
-                SELECT id_gasto, g.nombre as descripcion, cantidad as monto,periodicidad,fecha_de_pago,tg.nombre as tipo_de_gasto 
+                SELECT id_gasto, g.nombre as descripcion, cantidad as monto,periodicidad,DATE_FORMAT(fecha_de_pago,'%d/%m/%Y') as fecha_de_pago,tg.nombre as tipo_de_gasto 
                 FROM $tabla g 
                 left join periodicidad p 
                 on g.id_periodicidad=p.id_periodicidad 

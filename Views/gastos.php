@@ -24,7 +24,6 @@
                 $item='id_usuario';
                 $valor=2;
                 $respuesta = controllerFinanzas::ctrlistado_gastos($item,$valor);
-                var_dump($respuesta);
                 if($respuesta){for($i=0; $i<count($respuesta); $i++){
                 ?>
                     <tr id='<?= $respuesta[$i]['id_gasto'] ?>'>
@@ -51,8 +50,8 @@
 
 
 
-<div class="modal" tabindex="-1" role="dialog" id="modal_gasto">
-  <div class="modal-dialog" role="document">
+<div class="modal" tabindex="-1" role="dialog" id="modal_gasto"  >
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="titulo_modal">Modal title</h5>
@@ -65,70 +64,76 @@
           <form>
             <div class="row">
               <div class="form-group col-12">
-                <label>Text</label>
-                <input type="text" class="form-control" placeholder="Enter ...">
+                <label>Descripcion</label>
+                <input type="text" class="form-control" placeholder="Nombre del gasto">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label>Periodicidad</label>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="1">
+                    <label class="form-check-label">Fijo</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="2">
+                    <label class="form-check-label">Variable</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label>Tipo de gasto</label>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiogasto" value="1">
+                    <label class="form-check-label"> cada 15 dias</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiogasto" value="2">
+                    <label class="form-check-label">una vez al mes</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiogasto" value="3">
+                    <label class="form-check-label">Una vez cada 2 meses</label>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label">Checkbox</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" checked="">
-                    <label class="form-check-label">Checkbox checked</label>
+                  <label>Date:</label>
+                  <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
                   </div>
                 </div>
               </div>
               <div class="col-sm-6">
-                <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radio1">
-                    <label class="form-check-label">Radio</label>
+                <label>Monto</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radio1" checked="">
-                    <label class="form-check-label">Radio checked</label>
-                  </div>
+                  <input type="text" class="form-control">
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-12">
-                  <label>Select</label>
-                  <select class="form-control">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-12">
-                  <label>Select Multiple</label>
-                  <select multiple="" class="form-control">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
               </div>
             </div>
           </form>
         </div> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" id="guardar">Save changes</button>
         <button type="button" class="btn btn-secondary cerrar_modal" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <!--
   <div class="modal" tabindex="-1" role="dialog" id="modal_gasto">

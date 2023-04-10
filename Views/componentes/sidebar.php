@@ -57,7 +57,7 @@
           </li>
 
           <li class="nav-item menu-open">
-            <a href="finanzas" class="nav-link active">
+            <a href="" class="nav-link active">
               <i class="nav-icon fas fa-tree"></i>
               <p>
                 Finanzas
@@ -72,9 +72,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../UI/icons.html" class="nav-link">
+                <a href="inversiones" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
+                  <p>Inversiones</p>
                 </a>
               </li>
               <li class="nav-item">

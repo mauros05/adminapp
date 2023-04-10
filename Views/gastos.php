@@ -25,18 +25,18 @@
                 $valor=2;
                 $respuesta = controllerFinanzas::ctrlistado_gastos($item,$valor);
                 var_dump($respuesta);
-                if($respuesta){
+                if($respuesta){for($i=0; $i<count($respuesta); $i++){
                 ?>
-                    <tr id=''>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <tr id='<?= $respuesta[$i]['id_gasto'] ?>'>
+                    <td><?= $respuesta[$i]['descripcion'] ?></td>
+                    <td><?="$".$respuesta[$i]['monto'] ?></td>
+                    <td><?= $respuesta[$i]['periodicidad'] ?></td>
+                    <td><?= $respuesta[$i]['tipo_de_gasto'] ?></td>
+                    <td><?php if($respuesta[$i]['fecha_de_pago']==null){echo "NA";}else{echo $respuesta[$i]['fecha_de_pago'];}  ?></td>
                     <td></td>
                     </tr>
                 <?php
-                }else{?>
+                }}else{?>
                   <td colspan="6"><h5 id="aviso_registros" class="text-center mt-2">No existe ningun registro</h5></td>
                 <?php
                 }?>

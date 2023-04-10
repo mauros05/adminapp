@@ -9,7 +9,7 @@
             
             if($item!=null){
                 $stmt=Conexion::conectar()->prepare("
-                SELECT id_gasto, g.nombre as Descripcion, cantidad as Monto,periodicidad,fecha_de_pago,tg.nombre as tipo_de_gasto 
+                SELECT id_gasto, g.nombre as descripcion, cantidad as monto,periodicidad,fecha_de_pago,tg.nombre as tipo_de_gasto 
                 FROM $tabla g 
                 left join periodicidad p 
                 on g.id_periodicidad=p.id_periodicidad 
@@ -18,7 +18,7 @@
                 where g.$item = :$item");
                 $stmt->bindparam(":".$item,$valor,PDO::PARAM_INT);
                 $stmt->execute();
-                return $stmt->fetchAll();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             //$stmt->close();
             $stmt=null;            

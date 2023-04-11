@@ -3,8 +3,7 @@
 require_once "../Controllers/controllerFinanzas.php";
 /* Requiere Modelos */
 require_once "../Models/modelFinanzas.php";
-var_dump($_POST);
-    exit();
+$datos = json_decode(file_get_contents('php://input'), true);
 class ajaxfinanzas{
     public function Ajax_agregar_gasto(){
         $datos= $this->data;
@@ -13,13 +12,13 @@ class ajaxfinanzas{
     }
 }
 
-if(isset($_POST["data"])){
+if($datos!=null){
+    
     $agregar_gastos = new ajaxfinanzas();
-    $agregar_gastos->data=array(
-                                $_POST["data"]
-                            );
-    var_dump($agregar_gastos->data);
-    exit();
+    $agregar_gastos->data=$datos;
+
+ 
     $agregar_gastos->Ajax_agregar_gasto();
 
 }
+

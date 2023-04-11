@@ -65,36 +65,36 @@
             <div class="row">
               <div class="form-group col-12">
                 <label>Descripcion</label>
-                <input type="text" class="form-control" placeholder="Nombre del gasto">
+                <input type="text" class="form-control" id="descripcion_gasto" placeholder="Nombre del gasto">
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-6">
-                <label>Periodicidad</label>
-                <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="1">
-                    <label class="form-check-label">Fijo</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="2">
-                    <label class="form-check-label">Variable</label>
-                  </div>
-                </div>
-              </div>
               <div class="col-sm-6">
                 <label>Tipo de gasto</label>
                 <div class="form-group">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="radiogasto" value="1">
-                    <label class="form-check-label"> cada 15 dias</label>
+                    <label class="form-check-label">Fijo</label>
                   </div>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="radiogasto" value="2">
+                    <label class="form-check-label">Variable</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label>Periodicidad</label>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="1">
+                    <label class="form-check-label"> cada 15 dias</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="2">
                     <label class="form-check-label">una vez al mes</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radiogasto" value="3">
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="3">
                     <label class="form-check-label">Una vez cada 2 meses</label>
                   </div>
                 </div>
@@ -108,7 +108,7 @@
                     <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
-                    <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
+                    <input type="text" class="form-control datetimepicker-input" id="fecha_gasto" data-target="#reservationdate">
                   </div>
                 </div>
               </div>
@@ -118,7 +118,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" id="monto_gasto">
                 </div>
               </div>
             </div>

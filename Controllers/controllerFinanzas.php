@@ -9,5 +9,11 @@
             $respuesta=modelFinanzas::mdllistado_gastos($tabla,$item,$valor);
             return $respuesta;
         }
+        public static function ctrlAgregarGasto($datos){
+            $tabla="gastos";
+            $respuesta=modelFinanzas::mdlAgregarGastos($tabla,$datos);
+            return $respuesta;
+        }
+       
     }
 ?>

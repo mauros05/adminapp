@@ -1,10 +1,10 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-  <section class="content-header">
+  <section class="content-header ">
     <div class="container-fluid ">
       <h1 class="text-center">Gastos</h1>
-      <div class="row mt-2 col-12">
-      <button id="agregar_gasto" type="button" class="btn btn-block btn-primary btn-flat ml-auto col-3">Agregar nuevo</button>
+      <div class="row mt-2 col-12 mx-auto">
+        <button id="agregar_gasto" type="button" class="btn btn-block btn-primary btn-flat ml-auto col-12 col-lg-2">Agregar nuevo</button>
       </div>
       <div class="row">
         <div class="card-body">

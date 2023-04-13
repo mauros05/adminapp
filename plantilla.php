@@ -26,7 +26,9 @@ if(isset($_GET["ruta"])){
 
         if($_GET["ruta"] == "login" || 
             $_GET["ruta"] == "usuarios" ||
-            $_GET["ruta"] == "finanzas"){
+            $_GET["ruta"] == "finanzas" ||
+            $_GET["ruta"] == "resumenFinanciero"){
+
 
             include "Views/".$_GET["ruta"].".php";
             
@@ -64,5 +66,15 @@ if(isset($_GET["ruta"])){
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard2.js"></script>
+<!-- grafica -->
+<script src="dist/js/grafica.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- FLOT CHARTS -->
+<script src="plugins/flot/jquery.flot.js"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="plugins/flot/plugins/jquery.flot.resize.js"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="plugins/flot/plugins/jquery.flot.pie.js"></script>
 </body>
 </html>

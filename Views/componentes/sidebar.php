@@ -65,6 +65,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="resumenFinanciero" class="nav-link">
+            <i class="fa fa-fw fa-industry"></i>
+              <p>
+              Resumen Financiero
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+          </li>
 
         </ul>
       </nav>

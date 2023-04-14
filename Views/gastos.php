@@ -67,7 +67,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="card-body">
+        <div id="mensaje_error"></div>
+        <div id="form_gasto" class="card-body">
           <form>
             <div class="row">
               <div class="form-group col-12">
@@ -133,8 +134,10 @@
         </div> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="guardar">Save changes</button>
-        <button type="button" class="btn btn-secondary cerrar_modal" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="eliminar">Eliminar</button>
+        <button type="button" class="btn btn-primary" id="actualizar">Editar</button>
+        <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
+        <button type="button" class="btn btn-secondary cerrar_modal" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>

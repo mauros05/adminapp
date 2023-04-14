@@ -15,6 +15,11 @@ class ajaxfinanzas{
         $respuesta = controllerFinanzas::ctrlCunsultaGasto($datos);
         echo json_encode($respuesta);
     }
+    public function Ajax_editar_gasto(){
+        $datos= $this->data;
+        $respuesta = controllerFinanzas::ctrlEditarGasto($datos);
+        echo json_encode($respuesta);
+    }
     public function Ajax_eliminar_gasto(){
         $datos= $this->data;
         $respuesta = controllerFinanzas::ctrlEliminarGasto($datos);
@@ -29,9 +34,14 @@ switch($datos['accion']){
         $agregar_gastos->Ajax_agregar_gasto();
     break;
     case 'consulta':
+        $consulta_gasto = new ajaxfinanzas();
+        $consulta_gasto->data=$datos;
+        $consulta_gasto->Ajax_consulta_gasto();
+    break;
+    case 'editar':
         $editar_gastos = new ajaxfinanzas();
         $editar_gastos->data=$datos;
-        $editar_gastos->Ajax_consulta_gasto();
+        $editar_gastos->Ajax_editar_gasto();
     break;
 }
 

@@ -20,5 +20,12 @@
             $respuesta=modelFinanzas::mdlConsultaGasto($tabla,$datos,$item);
             return $respuesta;
         }
+        public static function ctrlEditarGasto($datos){
+            $tabla="gastos";
+            $item=$datos['item'];
+            $respuesta=modelFinanzas::mdlEditarGasto($tabla,$datos,$item);
+            return $respuesta;
+        }
+        
     }
 ?>

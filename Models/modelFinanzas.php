@@ -35,7 +35,13 @@
                 $stmt->bindparam(':dato2',$datos['descripcion'],PDO::PARAM_STR);
                 $stmt->bindparam(':dato3',$datos['monto'],PDO::PARAM_INT);
                 $stmt->bindparam(':dato4',$datos['periodicidad'],PDO::PARAM_INT);
-                $stmt->bindparam(':dato5',date('Y/m/d', strtotime($datos['fecha_pago'])),PDO::PARAM_STR);
+                if($datos['fecha_pago']==""){
+                    $fecha=NULL;
+                    $stmt->bindParam(':dato5',$fecha, PDO::PARAM_NULL);
+                }else{
+                    $fecha=date('Y/m/d', strtotime($datos['fecha_pago']));
+                    $stmt->bindparam(':dato5',$fecha,PDO::PARAM_STR);
+                }
                 $stmt->bindparam(':dato6',$datos['tipo_gasto'],PDO::PARAM_INT);
                 $stmt->execute();
                 return $stmt;
@@ -50,6 +56,45 @@
                 $stmt->bindparam(':dato',$datos['id'],PDO::PARAM_INT);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            //$stmt->close();
+            $stmt=null;            
+        }
+
+        public static function mdlEditarGasto($tabla,$datos,$item){
+            $campos_modificiados=NULL;
+            if($datos!=null){
+                foreach ($datos as $campo => $valor) {
+                    if($campo=="cantidad" ||$campo=="id_periodicidad" ||$campo=="id_tipo_de_gasto"||$campo=="nombre"||$campo=="fecha_de_pago"){
+                        $campos_actualizados[] = "$campo = :$campo";
+                    }
+                }
+                $query="Update $tabla SET ";
+                $query .=implode(',', $campos_actualizados);
+                $query .=" Where $item = :dato";
+                $stmt=Conexion::conectar()->prepare($query);
+                foreach ($datos as $campo => $valor) {
+                    if($campo=="cantidad" ||$campo=="id_periodicidad" ||$campo=="id_tipo_de_gasto"){
+                        $stmt->bindParam(":$campo", $datos["$campo"],PDO::PARAM_INT);
+                    }
+                    if($campo=="nombre"){
+                        $stmt->bindParam(":$campo", $datos["$campo"],PDO::PARAM_STR);
+                    }
+                    if($campo=="fecha_de_pago"){
+                        if($valor==""){
+                            $fecha=NULL;
+                            $stmt->bindParam(":$campo",$fecha, PDO::PARAM_NULL);
+                        }else{
+                            $fecha=date('Y/m/d', strtotime($datos["$campo"]));
+                            $stmt->bindParam(":$campo",$fecha ,PDO::PARAM_STR);
+                        }
+                    }
+                }
+                $stmt->bindParam(':dato',$datos['id'],PDO::PARAM_INT);
+                echo $datos['id'];
+                $stmt->execute();
+                return $stmt;  
             }
             
             //$stmt->close();

@@ -27,7 +27,7 @@
                 if($respuesta){for($i=0; $i<count($respuesta); $i++){
                 ?>
                     <tr id='<?= $respuesta[$i]['id_gasto'] ?>'>
-                    <td><?= $respuesta[$i]['descripcion'] ?></td>
+                    <td id='nombre<?= $respuesta[$i]['id_gasto'] ?>'><?= $respuesta[$i]['descripcion'] ?></td>
                     <td><?="$".$respuesta[$i]['monto'] ?></td>
                     <td><?= $respuesta[$i]['periodicidad'] ?></td>
                     <td><?= $respuesta[$i]['tipo_de_gasto'] ?></td>
@@ -67,7 +67,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <div id="mensaje_error"></div>
+        <div id="mensaje_eliminar"></div>
         <div id="form_gasto" class="card-body">
           <form>
             <div class="row">
@@ -134,6 +134,7 @@
         </div> 
       </div>
       <div class="modal-footer">
+        <label id="mensaje_error" class="text-danger"></label>
         <button type="button" class="btn btn-primary" id="eliminar">Eliminar</button>
         <button type="button" class="btn btn-primary" id="actualizar">Editar</button>
         <button type="button" class="btn btn-primary" id="guardar">Guardar</button>

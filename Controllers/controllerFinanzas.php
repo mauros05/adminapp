@@ -14,6 +14,10 @@
             $respuesta=modelFinanzas::mdlAgregarGastos($tabla,$datos);
             return $respuesta;
         }
-       
+        public static function ctrlEditarGasto($datos){
+            $tabla="gastos";
+            $respuesta=modelFinanzas::mdlEditarGastos($tabla,$datos);
+            return $respuesta;
+        }
     }
 ?>

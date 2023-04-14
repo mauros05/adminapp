@@ -32,7 +32,14 @@
                     <td><?= $respuesta[$i]['periodicidad'] ?></td>
                     <td><?= $respuesta[$i]['tipo_de_gasto'] ?></td>
                     <td><?php if($respuesta[$i]['fecha_de_pago']==null){echo "NA";}else{echo $respuesta[$i]['fecha_de_pago'];}  ?></td>
-                    <td></td>
+                    <td>
+                      <div class="row">
+                        <div class="d-flex justify-content-around col-12">
+                          <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 editar_gasto"><i class="fa fa-fw fa-edit"></i> Editar</button>
+                          <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 eliminar_gasto"><i class="fa fa-fw fa-trash"></i> Borrar</button>
+                        </div>
+                      </div>
+                    </td>
                     </tr>
                 <?php
                 }}else{?>

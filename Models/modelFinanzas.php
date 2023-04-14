@@ -43,6 +43,19 @@
             //$stmt->close();
             $stmt=null; 
         }
+        public static function mdlEditarGastos($tabla,$datos){
+            $item=$datos['item'];
+            if($datos!=null){
+                $stmt=Conexion::conectar()->prepare("
+                SELECT nombre, cantidad, id_periodicidad, fecha_de_pago, id_tipo_de_gasto FROM $tabla WHERE $item =:dato");
+                $stmt->bindparam(':dato',$datos['id'],PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            //$stmt->close();
+            $stmt=null;            
+        }
 
     }
 ?>

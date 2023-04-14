@@ -10,15 +10,29 @@ class ajaxfinanzas{
         $respuesta = controllerFinanzas::ctrlAgregarGasto($datos);
         echo json_encode($respuesta);
     }
+    public function Ajax_editar_gasto(){
+        $datos= $this->data;
+        $respuesta = controllerFinanzas::ctrlEditarGasto($datos);
+        echo json_encode($respuesta);
+    }
+    public function Ajax_eliminar_gasto(){
+        $datos= $this->data;
+        $respuesta = controllerFinanzas::ctrlEliminarGasto($datos);
+        echo json_encode($respuesta);
+    }
 }
 
-if($datos!=null){
-    
-    $agregar_gastos = new ajaxfinanzas();
-    $agregar_gastos->data=$datos;
-
- 
-    $agregar_gastos->Ajax_agregar_gasto();
-
+switch($datos['accion']){
+    case 'guardar':
+        $agregar_gastos = new ajaxfinanzas();
+        $agregar_gastos->data=$datos;
+        $agregar_gastos->Ajax_agregar_gasto();
+    break;
+    case 'editar':
+        $editar_gastos = new ajaxfinanzas();
+        $editar_gastos->data=$datos;
+        $editar_gastos->Ajax_editar_gasto();
+    break;
 }
+
 

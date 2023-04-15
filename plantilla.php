@@ -14,8 +14,11 @@
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Incluir los archivos CSS necesarios para el DatePicker -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
 </head>
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed login-page">
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed ">
 <div class="wrapper">
 
  <?php
@@ -23,18 +26,15 @@ include "Views/componentes/header.php";
 include "Views/componentes/sidebar.php";
  
 if(isset($_GET["ruta"])){
-
-        if($_GET["ruta"] == "login" || 
-            $_GET["ruta"] == "usuarios" ||
-            $_GET["ruta"] == "finanzas"){
-
-            include "Views/".$_GET["ruta"].".php";
-            
-        }else{
-                include "Views/404.php";
-            }
-
+  if($_GET["ruta"] == "login" || 
+      $_GET["ruta"] == "usuarios" ||
+      $_GET["ruta"] == "finanzas" ||
+      $_GET["ruta"] == "gastos"){
+      include "Views/".$_GET["ruta"].".php";
+    }else{
+      include "Views/404.php";
     }
+}
    
 
 ?>
@@ -59,10 +59,11 @@ if(isset($_GET["ruta"])){
 <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
 <script src="plugins/chart.js/Chart.min.js"></script>
-
+ <!-- Incluir el archivo JS de DatePicker -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard2.js"></script>
+<!-- Propios -->
+<script src="js/finanzas.js"></script>
 </body>
 </html>

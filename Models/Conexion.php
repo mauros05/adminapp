@@ -1,7 +1,6 @@
 <?php
 
 Class Conexion{
-
     public static function conectar(){
         try{
              $link = new PDO("mysql:host=localhost;dbname=adminapp","root","");

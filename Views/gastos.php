@@ -81,12 +81,12 @@
                 <label>Tipo de gasto</label>
                 <div class="form-group">
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radiogasto" value="1">
-                    <label class="form-check-label">Fijo</label>
+                    <input class="form-check-input" type="radio" name="radiogasto" value="1" id="opcion1">
+                    <label class="form-check-label" for="opcion1">Fijo</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radiogasto" value="2">
-                    <label class="form-check-label">Variable</label>
+                    <input class="form-check-input" type="radio" name="radiogasto" value="2" id="opcion2">
+                    <label class="form-check-label" for="opcion2">Variable</label>
                   </div>
                 </div>
               </div>
@@ -94,16 +94,16 @@
                 <label>Periodicidad</label>
                 <div class="form-group">
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="1">
-                    <label class="form-check-label"> cada 15 dias</label>
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="1" id="opcion3">
+                    <label class="form-check-label" for="opcion3"> cada 15 dias</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="2">
-                    <label class="form-check-label">una vez al mes</label>
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="2" id="opcion4">
+                    <label class="form-check-label" for="opcion4">una vez al mes</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="3">
-                    <label class="form-check-label">Una vez cada 2 meses</label>
+                    <input class="form-check-input" type="radio" name="radioperiodicidad" value="3" id="opcion5">
+                    <label class="form-check-label" for="opcion5">Una vez cada 2 meses</label>
                   </div>
                 </div>
               </div>

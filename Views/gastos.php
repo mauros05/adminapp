@@ -19,19 +19,19 @@
                 <th class="col-2 text-center">Opciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tbl_gastos">
                 <?php
                 $item='id_usuario';
                 $valor=2;
                 $respuesta = controllerFinanzas::ctrlistado_gastos($item,$valor);
                 if($respuesta){for($i=0; $i<count($respuesta); $i++){
                 ?>
-                    <tr id='<?= $respuesta[$i]['id_gasto'] ?>'>
+                  <tr id='<?= $respuesta[$i]['id_gasto'] ?>'>
                     <td id='nombre<?= $respuesta[$i]['id_gasto'] ?>'><?= $respuesta[$i]['descripcion'] ?></td>
-                    <td><?="$".$respuesta[$i]['monto'] ?></td>
-                    <td><?= $respuesta[$i]['periodicidad'] ?></td>
-                    <td><?= $respuesta[$i]['tipo_de_gasto'] ?></td>
-                    <td><?php if($respuesta[$i]['fecha_de_pago']==null){echo "NA";}else{echo $respuesta[$i]['fecha_de_pago'];}  ?></td>
+                    <td id='monto<?= $respuesta[$i]['id_gasto'] ?>'><?="$".$respuesta[$i]['monto'] ?></td>
+                    <td id='periodicidad<?= $respuesta[$i]['id_gasto'] ?>'><?= $respuesta[$i]['periodicidad'] ?></td>
+                    <td id='tipo_de_gasto<?= $respuesta[$i]['id_gasto'] ?>'><?= $respuesta[$i]['tipo_de_gasto'] ?></td>
+                    <td id='fecha_de_pago<?= $respuesta[$i]['id_gasto'] ?>'><?php if($respuesta[$i]['fecha_de_pago']==null){echo "NA";}else{echo $respuesta[$i]['fecha_de_pago'];}  ?></td>
                     <td>
                       <div class="row">
                         <div class="d-flex justify-content-around col-12">
@@ -40,7 +40,7 @@
                         </div>
                       </div>
                     </td>
-                    </tr>
+                  </tr>
                 <?php
                 }}else{?>
                   <td colspan="6"><h5 id="aviso_registros" class="text-center mt-2">No existe ningun registro</h5></td>

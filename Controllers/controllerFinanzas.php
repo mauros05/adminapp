@@ -26,6 +26,11 @@
             $respuesta=modelFinanzas::mdlEditarGasto($tabla,$datos,$item);
             return $respuesta;
         }
-        
+        public static function ctrlEliminarGasto($datos){
+            $tabla="gastos";
+            $item=$datos['item'];
+            $respuesta=modelFinanzas::mdlEliminarGasto($tabla,$datos,$item);
+            return $respuesta;
+        }
     }
 ?>

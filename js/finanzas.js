@@ -20,7 +20,7 @@ const borrar_gasto = document.getElementById("eliminar");
 const xhr = new XMLHttpRequest();
 let datos={};
 let datos_editados={};
-let datos_consultado={};//falta realizar el guardado de datos en la variables y realizar las comparacion
+let datos_consultado={};
 agregar_gasto.addEventListener("click",function(){
   modal_gasto.style.display="block";
   form_gasto.style.display="block";
@@ -56,7 +56,27 @@ guardar_gasto.addEventListener("click",function(){
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4){
       if (xhr.status === 200) {
-          
+        modal_gasto.style.display="none";
+        let partesFecha = datos.fecha_pago.split("-");
+        let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];   
+        let tabla_gasto = document.getElementById('tbl_gastos');
+        let linea=`
+        <td>`+datos.descripcion+`</td>
+        <td>$`+datos.monto+`</td>
+        <td>`+periodicidad(datos.periodicidad)+`</td>
+        <td>`+tipos_de_gastos(datos.tipo_gasto)+`</td>
+        <td>`+fechaFormateada+`</td>
+        <td>
+          <div class="row">
+            <div class="d-flex justify-content-around col-12">
+              <label> Para editar actualiza la pagina<label>
+            </div>
+          </div>
+        </td>
+        `;
+        let nuevotr = document.createElement('tr');
+        nuevotr.innerHTML=linea;
+        tabla_gasto.appendChild(nuevotr)
         }else{
           console.log("Error: " + xhr.statusText);
         }
@@ -96,7 +116,9 @@ consulta_gasto.forEach(function(boton){
             }
           });
           if(respuesta.fecha_de_pago!=null){
-            fechaInput.value=respuesta.fecha_de_pago;
+            let partesFecha = respuesta.fecha_de_pago.split("-");
+            let fechaFormateada = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
+            fechaInput.value=fechaFormateada;
             datos_consultado.fecha_de_pago=respuesta.fecha_de_pago;            
           }
           monto_gasto.value=respuesta.cantidad;
@@ -118,6 +140,7 @@ consulta_gasto.forEach(function(boton){
 actualizar_gasto.addEventListener("click",function(){
   let datos_enviados={};
   let cambio=0;
+  let tipo_de_gasto;
   datos_editados.nombre=descripcion_gasto.value;
   radios_periodicidad.forEach(function(radio) {
     if (radio.checked) {
@@ -129,7 +152,7 @@ actualizar_gasto.addEventListener("click",function(){
       datos_editados.id_tipo_de_gasto=radio.value
     }
   });
-  datos_editados.fecha_de_pago=fechaInput.value;// validacion de fecha
+  datos_editados.fecha_de_pago=fechaInput.value;
   datos_editados.cantidad=monto_gasto.value;
   for (let clave in datos_editados) {
     if(cambio!=1){
@@ -150,7 +173,15 @@ actualizar_gasto.addEventListener("click",function(){
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4){
         if (xhr.status === 200) {
-          console.log(xhr.responseText);
+          modal_gasto.style.display="none";
+          document.getElementById("nombre"+datos_enviados.id).innerText=datos_editados.nombre;
+          document.getElementById("monto"+datos_enviados.id).innerText="$"+datos_editados.cantidad;
+          //hacer el cambio de int a string
+          document.getElementById("periodicidad"+datos_enviados.id).innerText=periodicidad(datos_editados.id_periodicidad);
+          document.getElementById("tipo_de_gasto"+datos_enviados.id).innerText=tipos_de_gastos(datos_editados.id_tipo_de_gasto);
+          let partesFecha = datos_editados.fecha_de_pago.split("-");
+          let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];
+          document.getElementById("fecha_de_pago"+datos_enviados.id).innerText=fechaFormateada;
         }else{
           console.log("Error: " + xhr.statusText);
         }
@@ -173,24 +204,30 @@ eliminar_gasto.forEach(function(boton){
     form_gasto.style.display="none";
     titulo_modal.textContent="Eliminar Gasto";
     mensaje_eliminar.innerHTML="<label>Esta seguro de eliminar '"+gasto+"'</label>";
-    /*xhr.onreadystatechange = function(){
-      if (xhr.readyState === 4){
-        if (xhr.status === 200) {
-          console.log(xhr.responseText);
-        }else{
-          console.log("Error: " + xhr.statusText);
-        }
-      }
-    };
-    xhr.open("POST", "ajax/ajaxFinanzas.php");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(datos));*/
     guardar_gasto.style.display="none";
     actualizar_gasto.style.display="none";
     borrar_gasto.style.display="block";
+    borrar_gasto.addEventListener("click",function(){
+      datos.accion="borrar";
+      datos.item='id_gasto';
+      console.log(datos);
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4){
+          if (xhr.status === 200) {
+            modal_gasto.style.display="none";
+            document.getElementById(datos.id).remove();
+          }else{
+            console.log("Error: " + xhr.statusText);
+          }
+        }
+      };
+      xhr.open("POST", "ajax/ajaxFinanzas.php");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(datos));
+    });
   });
 });
-
+//Modal
 cerrar_modal.forEach(function(boton){
   boton.addEventListener("click",function(){
       modal_gasto.style.display="none";
@@ -208,3 +245,27 @@ $(document).ready(function() {
     autoclose: true
   });
 });
+//Funciones
+function periodicidad(id){
+  let periodicidad;
+  if(id==1){
+    periodicidad="15 dias";
+  }
+  if(id==2){
+    periodicidad="1 vez al mes";
+  }
+  if(id==3){
+    periodicidad="Una vez cada 2 meses";
+  }
+  return periodicidad
+}
+
+function tipos_de_gastos(id){
+  let tipo_de_gasto;
+  if(id==1){
+    tipo_de_gasto="Fijo";
+  }else{
+    tipo_de_gasto="Variable";
+  }
+  return tipo_de_gasto;
+}

@@ -15,7 +15,7 @@
                 on g.id_periodicidad=p.id_periodicidad 
                 inner JOIN tipo_gasto tg 
                 on g.id_tipo_de_gasto=tg.id_tipo_gasto 
-                where g.$item = :$item");
+                where g.$item = :$item AND estatus = 1");
                 $stmt->bindparam(":".$item,$valor,PDO::PARAM_INT);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,7 +44,6 @@
                 }
                 $stmt->bindparam(':dato6',$datos['tipo_gasto'],PDO::PARAM_INT);
                 $stmt->execute();
-                return $stmt;
             }
             //$stmt->close();
             $stmt=null; 
@@ -95,6 +94,19 @@
                 echo $datos['id'];
                 $stmt->execute();
                 return $stmt;  
+            }
+            
+            //$stmt->close();
+            $stmt=null;            
+        }
+
+        public static function mdlEliminarGasto($tabla,$datos,$item){
+            if($datos!=null){
+                $stmt=Conexion::conectar()->prepare("
+                Update $tabla SET estatus=0 WHERE $item = :dato");
+                $stmt->bindparam(':dato',$datos['id'],PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt;
             }
             
             //$stmt->close();

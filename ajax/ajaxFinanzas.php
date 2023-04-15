@@ -43,6 +43,11 @@ switch($datos['accion']){
         $editar_gastos->data=$datos;
         $editar_gastos->Ajax_editar_gasto();
     break;
+    case 'borrar':
+        $eliminar_gastos = new ajaxfinanzas();
+        $eliminar_gastos->data=$datos;
+        $eliminar_gastos->Ajax_eliminar_gasto();
+    break;
 }
 
 

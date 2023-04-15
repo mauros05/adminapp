@@ -40,7 +40,6 @@ agregar_gasto.addEventListener("click",function(){
   guardar_gasto.style.display="block";
   actualizar_gasto.style.display="none";
   borrar_gasto.style.display="none";
-  //Realiar el guardado del nuevo gasto
   guardar_gasto.addEventListener("click",agregar_gastos);
 });
 //Editar el gasto

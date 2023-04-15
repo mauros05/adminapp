@@ -21,6 +21,7 @@ const xhr = new XMLHttpRequest();
 let datos={};
 let datos_editados={};
 let datos_consultado={};
+// Gastos
 agregar_gasto.addEventListener("click",function(){
   modal_gasto.style.display="block";
   form_gasto.style.display="block";
@@ -227,6 +228,8 @@ eliminar_gasto.forEach(function(boton){
     });
   });
 });
+// Otros
+
 //Modal
 cerrar_modal.forEach(function(boton){
   boton.addEventListener("click",function(){

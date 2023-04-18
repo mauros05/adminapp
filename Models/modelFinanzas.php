@@ -91,7 +91,6 @@
                     }
                 }
                 $stmt->bindParam(':dato',$datos['id'],PDO::PARAM_INT);
-                echo $datos['id'];
                 $stmt->execute();
                 return $stmt;  
             }

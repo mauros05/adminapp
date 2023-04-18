@@ -21,12 +21,12 @@ const actualizar_gasto = document.getElementById("actualizar");
 const borrar_gasto = document.getElementById("eliminar");
 const xhr = new XMLHttpRequest();
 let datos={};
-let datos_editados={};
 let datos_consultado={};
 //Crear nuevo gasto **********Poder modificar sin actualizar
 agregar_gasto.addEventListener("click",function(){
   modal_gasto.style.display="block";
   form_gasto.style.display="block";
+  mensaje_eliminar.style.display="none";
   titulo_modal.textContent="Agregar Gasto";
   descripcion_gasto.value="";
   radios_periodicidad.forEach(function(radio) {
@@ -44,11 +44,99 @@ agregar_gasto.addEventListener("click",function(){
 });
 //Editar el gasto
 consulta_gasto.forEach(function(boton){
-  boton.addEventListener("click",editar_gastos);
+  boton.addEventListener("click",consulta_gastos);
+});
+actualizar_gasto.addEventListener("click",function(){
+  let datos_editados={};
+  let periodicidad="";
+  let tipos_gasto="";
+  let datos_enviados={};
+  let cambio=0;
+  datos_editados.nombre=descripcion_gasto.value;
+  radios_periodicidad.forEach(function(radio) {
+    if (radio.checked) {
+      datos_editados.id_periodicidad=radio.value
+      const label = document.querySelector(`label[for="${radio.id}"]`);
+      periodicidad=label.textContent;
+    }
+  });
+  radios_tipo_gasto.forEach(function(radio) {
+    if (radio.checked) {
+      datos_editados.id_tipo_de_gasto=radio.value
+      const label = document.querySelector(`label[for="${radio.id}"]`);
+      tipos_gasto=label.textContent;
+    }
+  });
+  let partesFecha = fechaInput.value.split("-");
+  let fechaFormateada = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
+  datos_editados.fecha_de_pago=fechaFormateada;
+  datos_editados.cantidad=monto_gasto.value;
+  if(validacion(datos_editados.id_periodicidad,"int") && validacion(datos_editados.id_tipo_de_gasto,"int") && validacion(datos_editados.nodescripcionmbre,"str") && validacion(datos_editados.cantidad,"int")){
+    console.log("validados");
+    for (let clave in datos_editados) {
+      if(cambio!=1){
+        mismosValores = true;
+      }
+      if(datos_consultado[clave] != datos_editados[clave]){
+        mismosValores = false;
+        console.log(clave);
+        datos_enviados[clave]=datos_editados[clave];
+        cambio=1;
+      }
+    }
+    if(mismosValores==false){
+      cambio=0;
+      datos_enviados.id = actualizar_gasto.getAttribute('data-id');
+      datos_enviados.accion="editar";
+      datos_enviados.item='id_gasto';
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4){
+          if (xhr.status === 200) {
+            modal_gasto.style.display="none";
+            document.getElementById("nombre"+datos_enviados.id).innerText=datos_editados.nombre;
+            document.getElementById("monto"+datos_enviados.id).innerText="$"+datos_editados.cantidad;
+            //hacer el cambio de int a string
+            document.getElementById("periodicidad"+datos_enviados.id).innerText=periodicidad;
+            document.getElementById("tipo_de_gasto"+datos_enviados.id).innerText=tipos_gasto;
+            let partesFecha = datos_editados.fecha_de_pago.split("-");
+            let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];
+            document.getElementById("fecha_de_pago"+datos_enviados.id).innerText=fechaFormateada;
+          }else{
+            console.log("Error: " + xhr.statusText);
+          }
+        }
+      };
+      xhr.open("POST", "ajax/ajaxFinanzas.php");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(datos_enviados));
+    }else{
+      mensaje_error.innerText="No hay cambios en los datos";
+    }
+  }else{
+    mensaje_error.innerText="Hay datos invalidos";
+  }
+
 });
 //Eliminar gasto (cambio de estatus)
 eliminar_gasto.forEach(function(boton){
   boton.addEventListener("click",eliminar_gastos);
+});
+borrar_gasto.addEventListener("click",function(){
+  datos.accion="borrar";
+  datos.item='id_gasto';
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState === 4){
+      if (xhr.status === 200) {
+        modal_gasto.style.display="none";
+        document.getElementById(datos.id).remove();
+      }else{
+        console.log("Error: " + xhr.statusText);
+      }
+    }
+  };
+  xhr.open("POST", "ajax/ajaxFinanzas.php");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify(datos));
 });
 //Modal funciones
 cerrar_modal.forEach(function(boton){
@@ -70,6 +158,26 @@ $(document).ready(function() {
 });
 ///
 ///////////////////////////Funciones
+///Generales
+function validacion(data,tipo){
+  let filtrostring=/[A-Za-z]/g;
+  let filtroint=/[0-9]/g;
+  let valido;
+  if(data!=""){
+    switch(tipo){
+      case "str":
+        valido=filtrostring.test(data);
+      break;
+      case "int":
+        valido=filtroint.test(data);
+      break;
+    }
+  }else{
+    valido=false;
+  }
+  return valido;
+  
+}
 /// Gastos
 function agregar_gastos(){
   let periodicidad;
@@ -92,51 +200,55 @@ function agregar_gastos(){
   datos.fecha_pago=fechaInput.value;
   datos.descripcion=descripcion_gasto.value;
   datos.monto=monto_gasto.value;
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4){
-      if (xhr.status === 200) {
-        modal_gasto.style.display="none";
-        let partesFecha = datos.fecha_pago.split("-");
-        let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];   
-        let tabla_gasto = document.getElementById('tbl_gastos');
-        let linea=`
-        <td>`+datos.descripcion+`</td>
-        <td>$`+datos.monto+`</td>
-        <td>`+periodicidad+`</td>
-        <td>`+tipos_gasto+`</td>
-        <td>`+fechaFormateada+`</td>
-        <td>
-          <div class="row">
-            <div class="d-flex justify-content-around col-12">
-              <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 editar_gasto"><i class="fa fa-fw fa-edit"></i> Editar</button>
-              <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 eliminar_gasto"><i class="fa fa-fw fa-trash"></i> Borrar</button>
+  if(validacion(datos.periodicidad,"int") && validacion(datos.tipo_gasto,"int") && validacion(datos.descripcion,"str") && validacion(datos.monto,"int")){
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4){
+        if (xhr.status === 200) {
+          modal_gasto.style.display="none";
+          let partesFecha = datos.fecha_pago.split("-");
+          let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];   
+          let tabla_gasto = document.getElementById('tbl_gastos');
+          let linea=`
+          <td>`+datos.descripcion+`</td>
+          <td>$`+datos.monto+`</td>
+          <td>`+periodicidad+`</td>
+          <td>`+tipos_gasto+`</td>
+          <td>`+fechaFormateada+`</td>
+          <td>
+            <div class="row">
+              <div class="d-flex justify-content-around col-12">
+                <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 editar_gasto"><i class="fa fa-fw fa-edit"></i> Editar</button>
+                <button data-id="<?= $respuesta[$i]['id_gasto'] ?>" type="button" class="btn btn-primary col-5 eliminar_gasto"><i class="fa fa-fw fa-trash"></i> Borrar</button>
+              </div>
             </div>
-          </div>
-        </td>
-        `;
-        let nuevotr = document.createElement('tr');
-        nuevotr.innerHTML=linea;
-        tabla_gasto.appendChild(nuevotr)
-        var botonesEditar = document.querySelectorAll('.editar_gasto');
-        var botonesEliminar = document.querySelectorAll('.eliminar_gasto');
-        for (var i = 0; i < botonesEditar.length; i++) {
-          botonesEditar[i].addEventListener('click', editar_gastos);
+          </td>
+          `;
+          let nuevotr = document.createElement('tr');
+          nuevotr.innerHTML=linea;
+          tabla_gasto.appendChild(nuevotr)
+          var botonesEditar = document.querySelectorAll('.editar_gasto');
+          var botonesEliminar = document.querySelectorAll('.eliminar_gasto');
+          for (var i = 0; i < botonesEditar.length; i++) {
+            botonesEditar[i].addEventListener('click', editar_gastos);
+          }
+          for (var i = 0; i < botonesEliminar.length; i++) {
+            botonesEliminar[i].addEventListener('click', eliminar_gastos);
+          }
+          }else{
+            console.log("Error: " + xhr.statusText);
+          }
         }
-        for (var i = 0; i < botonesEliminar.length; i++) {
-          botonesEliminar[i].addEventListener('click', eliminar_gastos);
-        }
-        }else{
-          console.log("Error: " + xhr.statusText);
-        }
-      }
-  };
-  xhr.open("POST", "ajax/ajaxFinanzas.php");
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.send(JSON.stringify(datos));
+    };
+    xhr.open("POST", "ajax/ajaxFinanzas.php");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(datos));
+  }else{
+    mensaje_error.innerText="Hay datos invalidos";
+  }
+
 }
-function editar_gastos(){
-  let periodicidad;
-  let tipos_gasto;
+function consulta_gastos(){
+  mensaje_eliminar.style.display="none";
   mensaje_error.innerText="";
   modal_gasto.style.display="block";
   form_gasto.style.display="block";
@@ -182,94 +294,17 @@ function editar_gastos(){
   xhr.open("POST", "ajax/ajaxFinanzas.php");
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(JSON.stringify(datos));
-  //Actulizar los valores en la base de datos
-  actualizar_gasto.addEventListener("click",function(){
-    let datos_enviados={};
-    let cambio=0;
-    datos_editados.nombre=descripcion_gasto.value;
-    radios_periodicidad.forEach(function(radio) {
-      if (radio.checked) {
-        datos_editados.id_periodicidad=radio.value
-        const label = document.querySelector(`label[for="${radio.id}"]`);
-        periodicidad=label.textContent;
-      }
-    });
-    radios_tipo_gasto.forEach(function(radio) {
-      if (radio.checked) {
-        datos_editados.id_tipo_de_gasto=radio.value
-        const label = document.querySelector(`label[for="${radio.id}"]`);
-        tipos_gasto=label.textContent;
-      }
-    });
-    datos_editados.fecha_de_pago=fechaInput.value;
-    datos_editados.cantidad=monto_gasto.value;
-    for (let clave in datos_editados) {
-      if(cambio!=1){
-        mismosValores = true;
-      }
-      if(datos_consultado[clave] != datos_editados[clave]){
-        mismosValores = false;
-        datos_enviados[clave]=datos_editados[clave];
-        cambio=1;
-      }
-
-    }
-    if(mismosValores==false){
-      datos_enviados.id = actualizar_gasto.getAttribute('data-id');
-      datos_enviados.accion="editar";
-      datos_enviados.item='id_gasto';
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4){
-          if (xhr.status === 200) {
-            modal_gasto.style.display="none";
-            document.getElementById("nombre"+datos_enviados.id).innerText=datos_editados.nombre;
-            document.getElementById("monto"+datos_enviados.id).innerText="$"+datos_editados.cantidad;
-            //hacer el cambio de int a string
-            document.getElementById("periodicidad"+datos_enviados.id).innerText=periodicidad;
-            document.getElementById("tipo_de_gasto"+datos_enviados.id).innerText=tipos_gasto;
-            let partesFecha = datos_editados.fecha_de_pago.split("-");
-            let fechaFormateada = partesFecha[0] + "/" + partesFecha[1] + "/" + partesFecha[2];
-            document.getElementById("fecha_de_pago"+datos_enviados.id).innerText=fechaFormateada;
-          }else{
-            console.log("Error: " + xhr.statusText);
-          }
-        }
-      };
-      xhr.open("POST", "ajax/ajaxFinanzas.php");
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify(datos_enviados));
-    }else{
-      mensaje_error.innerText="No hay cambios en los datos";
-    }
-
-  });
 }
 function eliminar_gastos(){
   datos.id = this.getAttribute('data-id');
   let gasto = document.getElementById("nombre"+datos.id).textContent;
   modal_gasto.style.display="block";
   form_gasto.style.display="none";
+  mensaje_eliminar.style.display="block";
   titulo_modal.textContent="Eliminar Gasto";
   mensaje_eliminar.innerHTML="<label>Esta seguro de eliminar '"+gasto+"'</label>";
   guardar_gasto.style.display="none";
   actualizar_gasto.style.display="none";
   borrar_gasto.style.display="block";
-  borrar_gasto.addEventListener("click",function(){
-    datos.accion="borrar";
-    datos.item='id_gasto';
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState === 4){
-        if (xhr.status === 200) {
-          modal_gasto.style.display="none";
-          document.getElementById(datos.id).remove();
-        }else{
-          console.log("Error: " + xhr.statusText);
-        }
-      }
-    };
-    xhr.open("POST", "ajax/ajaxFinanzas.php");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(datos));
-  });
 }
 ///

@@ -4,7 +4,6 @@
         public function __construct(){
             
         }
-
         public static function mdllistado_gastos($tabla,$item,$valor){
             
             if($item!=null){
@@ -23,7 +22,6 @@
             //$stmt->close();
             $stmt=null;            
         }
-
         public static function mdlAgregarGastos($tabla,$datos){
             $valor=2;
             if($datos!=null){
@@ -60,7 +58,6 @@
             //$stmt->close();
             $stmt=null;            
         }
-
         public static function mdlEditarGasto($tabla,$datos,$item){
             $campos_modificiados=NULL;
             if($datos!=null){
@@ -98,7 +95,6 @@
             //$stmt->close();
             $stmt=null;            
         }
-
         public static function mdlEliminarGasto($tabla,$datos,$item){
             if($datos!=null){
                 $stmt=Conexion::conectar()->prepare("
@@ -108,6 +104,21 @@
                 return $stmt;
             }
             
+            //$stmt->close();
+            $stmt=null;            
+        }
+
+        public static function mdllistado_inversiones($tabla,$item,$valor){
+            
+            if($item!=null){
+                $stmt=Conexion::conectar()->prepare("
+                SELECT id_inversion,nombre,porcentaje_ganancia,cantidad
+                FROM $tabla g 
+                where g.$item = :$item AND estatus = 1");
+                $stmt->bindparam(":".$item,$valor,PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
             //$stmt->close();
             $stmt=null;            
         }

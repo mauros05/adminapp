@@ -32,5 +32,12 @@
             $respuesta=modelFinanzas::mdlEliminarGasto($tabla,$datos,$item);
             return $respuesta;
         }
+
+        public static function  ctrlistado_inversiones($item,$valor){
+            $tabla="inversiones";
+            $respuesta=modelFinanzas::mdllistado_inversiones($tabla,$item,$valor);
+            return $respuesta;
+        }
+        
     }
 ?>
